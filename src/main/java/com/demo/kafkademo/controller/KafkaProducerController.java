@@ -26,28 +26,26 @@ public class KafkaProducerController {
 	public void sendMessageToKafkaTopic(@RequestParam("message") String message) {
 		this.producerService.sendMessage(message);
 	}
-	
+
 	@PostMapping(value = "/createUser")
-	public void sendMessageToKafkaTopic(
-			@RequestParam("userId") long userId, 
-			@RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName) {
-		
+	public void sendMessageToKafkaTopic(@RequestParam("userId") long userId,
+			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+
 		User user = new User();
-		user.setUserId(userId);
+		user.setId(userId);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		
+
 		this.producerService.saveCreateUserLog(user);
 	}
 
 	@Bean
 	public NewTopic registerMessageTopic() {
-		return new NewTopic(AppConstants.TOPIC_CUSTOM_MESSAGE, 3, (short)1);
+		return new NewTopic(AppConstants.TOPIC_CUSTOM_MESSAGE, 3, (short) 1);
 	}
 
 	@Bean
 	public NewTopic registerUserLogTopic() {
-		return new NewTopic(AppConstants.TOPIC_NAME_USER_LOG, 3, (short)1);
+		return new NewTopic(AppConstants.TOPIC_NAME_USER_LOG, 3, (short) 1);
 	}
 }
