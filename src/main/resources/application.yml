@@ -1,0 +1,24 @@
+server:
+  port: 9000
+
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group_id
+      auto-offset-reset: earliest
+      # Configures the Spring Kafka ErrorHandlingDeserializer that delegates to the 'real' deserializers
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    properties:
+      # Delegate deserializers
+      spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+      spring.deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+
+    producer:
+      bootstrap-servers: localhost:9092
+      # Important!
+      # In case you publish to a 'dead letter topic' you consumer application becomes
+      # a producer as well! So you need to specify the producer properties!
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
